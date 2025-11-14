@@ -1,0 +1,420 @@
+/* Tzuchi Stats Page - Matching Reference Design */
+/* Based on: https://go-vegetarian.tzuchi.org.tw/%E7%99%BC%E9%A1%98%E9%BD%8B%E6%88%92 */
+
+/* Main Container */
+.tzuchi-stats-page {
+  min-height: 100vh;
+  background-image: url('../../assets/bg1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-family: 'Microsoft JhengHei', 'Arial', sans-serif;
+}
+
+#b-mainA {
+  min-height: calc(100vh - 100px);
+  padding: 20px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Logo */
+.logo {
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  max-width: 150px;
+  height: auto;
+}
+
+/* Main Content */
+.youle {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Back Home Button */
+.p4-backhome {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+}
+
+.p4-backhome img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.p4-backhome img:hover {
+  transform: scale(1.1);
+}
+
+/* Main Grid Layout */
+.formroid {
+  display: flex;
+  min-height: 405px;
+  position: relative;
+}
+
+/* Chart/Map Area (Left Side) */
+.earth {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-chart {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.earth-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.3), transparent);
+}
+
+.earth-gif {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: white;
+  font-size: 18px;
+}
+
+#dashboard_div,
+#chart_div {
+  width: 100%;
+  height: 100%;
+  min-height: 405px;
+}
+
+/* Stats Sidebar (Right Side) */
+.veatsum {
+  width: 350px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Goal Header */
+.hrse1 {
+  text-align: center;
+  padding: 15px 0;
+  background: linear-gradient(135deg, #757E2A 0%, #993779 100%);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.txt0 {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+}
+
+.txt0-1 {
+  color: #FFD700;
+  font-size: 32px;
+  font-weight: bold;
+  display: block;
+  margin: 10px 0;
+}
+
+.hrse {
+  height: 3px;
+  background: linear-gradient(90deg, #757E2A 0%, #993779 100%);
+  margin-bottom: 15px;
+}
+
+/* Stats List */
+#nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#nav li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background 0.3s;
+}
+
+#nav li:hover {
+  background: rgba(117, 126, 42, 0.1);
+}
+
+.vetday {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vetday img {
+  width: 20px;
+  height: 20px;
+}
+
+.txt1 {
+  color: #333;
+  font-size: 16px;
+}
+
+.vettotle {
+  text-align: right;
+}
+
+.txt2 {
+  color: #757E2A;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.txt3 {
+  color: #666;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+/* Total People Section */
+.hrse2 {
+  padding: 15px 10px;
+  background: rgba(153, 55, 121, 0.1);
+  border-radius: 8px;
+  margin: 15px 0 10px 0;
+  text-align: center;
+}
+
+.hrse3 {
+  height: 2px;
+  background: #993779;
+  margin-bottom: 15px;
+}
+
+/* Country Legend */
+#legend_div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.legend-marker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.legend-marker:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.legend-marker-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.legend-marker span {
+  color: #333;
+  font-size: 14px;
+}
+
+/* Footer */
+#b-footer {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 30px 20px;
+  margin-top: 40px;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+}
+
+.footer1,
+.footer2 {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.footer2 a {
+  color: #FFD700;
+  text-decoration: none;
+}
+
+.footer2 a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .formroid {
+    flex-direction: column;
+  }
+
+  .earth {
+    margin-right: 0;
+    margin-bottom: 20px;
+    min-height: 400px;
+  }
+
+  .chart-container {
+    max-width: 400px;
+    height: 400px;
+  }
+
+  .earth-center {
+    width: 150px;
+    height: 150px;
+  }
+
+  .earth-gif {
+    width: 130px;
+    height: 130px;
+  }
+
+  .veatsum {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .logo img {
+    max-width: 120px;
+  }
+
+  .chart-container {
+    max-width: 300px;
+    height: 300px;
+  }
+
+  .earth-center {
+    width: 100px;
+    height: 100px;
+  }
+
+  .earth-gif {
+    width: 90px;
+    height: 90px;
+  }
+
+  .txt0-1 {
+    font-size: 24px;
+  }
+
+  .txt2 {
+    font-size: 20px;
+  }
+
+  #legend_div {
+    gap: 10px;
+  }
+
+  .legend-marker {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Loading and Error States */
+.stats-loading,
+.stats-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  margin: 20px;
+  padding: 40px;
+}
+
+.stats-error .back-link {
+  margin-top: 20px;
+  padding: 10px 30px;
+  background: white;
+  color: #757E2A;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.stats-error .back-link:hover {
+  background: #757E2A;
+  color: white;
+}
