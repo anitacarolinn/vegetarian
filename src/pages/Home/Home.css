@@ -1,0 +1,61 @@
+.home-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.home-container > * {
+  scroll-snap-align: start;
+}
+
+/* Full-height sections except Copyright */
+.home-container > *:not(.copyright-container) {
+  height: 100vh;
+}
+
+@media (max-width: 992px) {
+  div.home-container > section.hero-container {
+    height: auto;
+  }
+
+  .home-container > .p1-container {
+    height: auto;
+    /* margin-top: 20px; */
+    margin-bottom: 20px;
+    overflow: visible;
+  }
+
+  .home-container > .hero-below-container {
+    height: auto;
+  }
+
+  .home-container > .p2-fullwidth {
+    height: auto;
+  }
+}
+
+@media (max-width: 770px) {
+  .home-container > .hero-container {
+    height: auto;
+  }
+
+  .home-container > .hero-below-container {
+    height: auto;
+  }
+
+  .home-container > .p1-container {
+    height: auto;
+    margin-bottom: 20px;
+    overflow: visible;
+  }
+}
+
+/* Style untuk copyright di Home */
+.home-container .copyright-container {
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  height: auto;
+  scroll-snap-align: none;
+}

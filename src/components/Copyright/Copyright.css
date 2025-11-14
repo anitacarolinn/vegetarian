@@ -1,0 +1,60 @@
+#b-footer {
+  height: 15vh;
+  background-color: #767676;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px; /* biar teks ga terlalu mepet di HP */
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer1,
+.footer2 {
+  font-size: clamp(14px, 2vw, 24px);
+  /* clamp(min, preferred, max):
+     - di HP (small screen): ~14px
+     - di tablet: ~18–20px
+     - di desktop: 24px
+  */
+}
+
+.footer2 a {
+  color: white;
+  text-decoration: none;
+  transition: text-decoration 0.3s ease;
+}
+
+.footer2 a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsif tambahan ===== */
+@media (max-width: 768px) {
+  #b-footer {
+    height: auto; /* biar tinggi menyesuaikan isi di layar kecil */
+    padding: 30px 10px;
+  }
+
+  .footer-content {
+    gap: 8px;
+  }
+
+  .footer1,
+  .footer2 {
+    font-size: clamp(12px, 4vw, 18px);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer1,
+  .footer2 {
+    font-size: clamp(11px, 5vw, 16px);
+  }
+}

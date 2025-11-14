@@ -1,0 +1,167 @@
+.meat-fullwidth {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #842425;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* penting: biar scroll hanya di right */
+}
+
+.meat-top-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 50px;
+}
+
+.meat-nav-buttons {
+  display: flex;
+  font-size: 26px;
+  gap: 50px;
+  align-items: center;
+}
+
+.meat-layout {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.meat-left {
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.earth-img {
+  width: 40%;
+  max-width: 300px;
+}
+
+.meat-right {
+  width: 60%;
+  padding: 0 50px;
+  overflow-y: auto;
+  max-height: 60vh;
+  box-sizing: border-box;
+}
+
+.meat-ul {
+  margin-top: 10px;
+  padding-left: 25px;
+  text-align: left;
+}
+
+.meat-li {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 15px;
+  line-height: 1.7;
+}
+
+.meat-ul-inline {
+  font-size: 22px;
+  color: #fff;
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.meat-li-inline a {
+  font-size: 22px;
+  color: rgb(66, 203, 253);
+  text-decoration: underline;
+}
+
+.meat-title {
+  font-size: 52px;
+  font-weight: 800;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4), 0px 6px 10px rgba(0, 0, 0, 0.35),
+    0px 10px 20px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.35);
+  filter: drop-shadow(0 0 10px rgba(255, 200, 200, 0.3));
+}
+
+.meat-paragraph {
+  font-size: 22px;
+  line-height: 1.75;
+  margin-bottom: 20px;
+  color: #fff;
+  text-align: justify;
+}
+
+.meat-side {
+  text-align: center;
+}
+
+/* ===========================
+   🔹 RESPONSIVE (≤768px)
+   =========================== */
+@media (max-width: 768px) {
+  .meat-nav-buttons {
+    font-size: 18px;
+    gap: 20px;
+  }
+
+  .meat-layout {
+    flex-direction: column; /* ✅ gambar di atas, teks di bawah */
+    align-items: center;
+    overflow: visible;
+  }
+
+  .meat-left {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .earth-img {
+    width: 60%;
+    max-width: 250px;
+  }
+
+  .meat-right {
+    width: 90%;
+    padding: 0 20px;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .meat-title {
+    font-size: clamp(28px, 6vw, 40px);
+  }
+
+  .meat-paragraph,
+  .meat-li,
+  .meat-li-inline a {
+    font-size: clamp(14px, 4vw, 20px);
+  }
+
+  .meat-ul-inline {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ===========================
+   🔹 Layar sangat kecil (≤480px)
+   =========================== */
+@media (max-width: 480px) {
+  .earth-img {
+    width: 70%;
+    max-width: 200px;
+  }
+
+  .meat-title {
+    font-size: clamp(22px, 7vw, 32px);
+  }
+
+  .meat-paragraph {
+    text-align: left;
+  }
+}

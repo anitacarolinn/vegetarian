@@ -1,0 +1,68 @@
+
+.current-stats-container {
+  background-image: url('../../assets/bg1.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-family: 'Arial, sans-serif';
+}
+
+.header {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.logo {
+  width: 100px;
+}
+
+.content {
+  text-align: center;
+}
+
+.text-container h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.text-container p {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.text-container span {
+  color: #FFD700; /* Gold */
+}
+
+.button-container {
+  margin-top: 30px;
+}
+
+.plead-button {
+  background-color: #FFD700; /* Gold */
+  color: black;
+  padding: 15px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.footer {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footer img {
+  width: 50px;
+}
+
