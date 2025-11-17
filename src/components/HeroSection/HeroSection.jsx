@@ -5,6 +5,7 @@ import textData from "../../lang.json";
 import { useNavigate } from "react-router-dom";
 import "primereact/resources/themes/lara-light-cyan/theme.css"; // theme
 import "primereact/resources/primereact.min.css"; // core css
+import Hls from "hls.js";
 
 import arrow from "../../assets/hero/arrow.svg";
 
@@ -15,6 +16,9 @@ export default function HeroSection({ lang }) {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const titleRef = useRef(null);
+  const bgVideoRef = useRef(null);
+  const popupVideoRef = useRef(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
   const data = textData.vegetarian[lang];
 
@@ -35,19 +39,87 @@ export default function HeroSection({ lang }) {
     es: "src/assets/hero/it-es.svg",
   };
 
-  const videoSrc = {
-    zh: "src/assets/videos/buffalo.mp4",
-    en: "src/assets/videos/seagulls.mp4",
-    es: "src/assets/videos/buffalo.mp4",
-  };
+  // Background videos -循環播放這三個影片
+  const backgroundVideos = [
+    "https://customer-cvpm5ik9o37c3vts.cloudflarestream.com/d9eea2699ec9c9bad2bd6cfbe3834523/manifest/video.m3u8", // buffalo
+    "https://customer-cvpm5ik9o37c3vts.cloudflarestream.com/d71b445e3792cff403311b7834a42319/manifest/video.m3u8", // seagulls
+    "https://customer-cvpm5ik9o37c3vts.cloudflarestream.com/d39ba9a17b4931b266b63359964f9a2a/manifest/video.m3u8", // fish
+  ];
 
-  const currentVideo = videoSrc[lang];
+  // Popup video - 點擊播放按鈕後播放
+  const popupVideoUrl = "https://customer-cvpm5ik9o37c3vts.cloudflarestream.com/3f03671f9f2f6e36878416470f83f362/manifest/video.m3u8"; // videovet
 
   const languageButtons = getLanguageButtons();
 
   const handleLanguageChange = (path) => {
     navigate(path);
   };
+
+  // 處理背景影片的 HLS 播放和循環
+  useEffect(() => {
+    const video = bgVideoRef.current;
+    if (!video) return;
+
+    let hls;
+    const currentVideoUrl = backgroundVideos[currentVideoIndex];
+
+    if (Hls.isSupported()) {
+      hls = new Hls();
+      hls.loadSource(currentVideoUrl);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(err => console.error("播放失敗:", err));
+      });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // Safari 原生支援 HLS
+      video.src = currentVideoUrl;
+      video.addEventListener("loadedmetadata", () => {
+        video.play().catch(err => console.error("播放失敗:", err));
+      });
+    }
+
+    // 影片結束後播放下一個
+    const handleEnded = () => {
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % backgroundVideos.length);
+    };
+
+    video.addEventListener("ended", handleEnded);
+
+    return () => {
+      if (hls) {
+        hls.destroy();
+      }
+      video.removeEventListener("ended", handleEnded);
+    };
+  }, [currentVideoIndex]);
+
+  // 處理彈窗影片的 HLS 播放
+  useEffect(() => {
+    if (!showPopup || !popupVideoRef.current) return;
+
+    const video = popupVideoRef.current;
+    let hls;
+
+    if (Hls.isSupported()) {
+      hls = new Hls();
+      hls.loadSource(popupVideoUrl);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(err => console.error("播放失敗:", err));
+      });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = popupVideoUrl;
+      video.addEventListener("loadedmetadata", () => {
+        video.play().catch(err => console.error("播放失敗:", err));
+      });
+    }
+
+    return () => {
+      if (hls) {
+        hls.destroy();
+      }
+    };
+  }, [showPopup]);
 
   useEffect(() => {
     if (titleRef.current) {
@@ -65,9 +137,12 @@ export default function HeroSection({ lang }) {
       <div className="hero-media">
         {/* Background video */}
         <div className="hero-bg-video">
-          <video autoPlay muted loop playsInline key={currentVideo}>
-            <source src={currentVideo} type="video/mp4" />
-          </video>
+          <video
+            ref={bgVideoRef}
+            autoPlay
+            muted
+            playsInline
+          />
         </div>
 
         {/* Overlay that sits on top of the video frame (top-bar + title + play) */}
@@ -97,7 +172,13 @@ export default function HeroSection({ lang }) {
               <Button
                 label={data["vownum-btn"]}
                 className="p-button-rounded p-button-text white-btn"
-                onClick={() => navigate(`/${lang}/currentstats`)}
+                onClick={() => {
+                  if (lang === 'zh') {
+                    navigate('/currentstats');
+                  } else {
+                    navigate(`/${lang}/currentstats`);
+                  }
+                }}
               />
               {/* language buttons */}
               {languageButtons.map((lang) => (
@@ -187,7 +268,7 @@ export default function HeroSection({ lang }) {
             onClick={() => setShowPopup(false)}
           ></div>
           <div className="video-popup-content">
-            <video src="src/assets/videos/videovet.mp4" autoPlay controls />
+            <video ref={popupVideoRef} autoPlay controls />
             <button className="close-btn" onClick={() => setShowPopup(false)}>
               <i className="fa-solid fa-xmark"></i>
             </button>

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:go-vegetarian.tzuchi.org.tw)",
+      "Bash(copy:*)",
+      "Bash(npm run server:*)",
+      "Bash(npm run dev:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

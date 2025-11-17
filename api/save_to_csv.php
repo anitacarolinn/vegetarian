@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 // Define the path to the CSV file
 $csvFile = __DIR__ . '/survey_data.csv';
+$publicCsvFile = __DIR__ . '/../public/api/survey_data.csv';
 
 // Get the raw POST data
 $jsonData = file_get_contents('php://input');
@@ -52,12 +53,23 @@ foreach ($headers as $header) {
 
 // Write the data to the CSV file
 if (fputcsv($file, $rowData)) {
+    fclose($file);
+
+    // Also save to public folder for frontend access
+    $publicFileExists = file_exists($publicCsvFile);
+    $publicFile = fopen($publicCsvFile, 'a');
+
+    if (!$publicFileExists || filesize($publicCsvFile) === 0) {
+        fputcsv($publicFile, $headers);
+    }
+
+    fputcsv($publicFile, $rowData);
+    fclose($publicFile);
+
     echo "Data saved successfully.";
 } else {
+    fclose($file);
     http_response_code(500);
     echo "Error: Could not write to CSV file.";
 }
-
-// Close the file
-fclose($file);
 ?>

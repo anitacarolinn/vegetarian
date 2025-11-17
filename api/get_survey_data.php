@@ -1,45 +1,70 @@
 <?php
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // Izinkan permintaan dari mana saja. Di lingkungan produksi, batasi ini ke domain aplikasi React Anda.
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-// Sertakan file konfigurasi untuk mendapatkan kredensial database
-// configuration.php diharapkan berada di direktori induk dari folder 'api'
-require_once(__DIR__ . '/../configuration.php');
-
-// Kredensial database diambil dari objek $config yang dimuat dari configuration.php
-$host = $config->host;
-$user = $config->user;
-$password = $config->password;
-$database = $config->db;
-
-// Buat koneksi
-$conn = new mysqli($host, $user, $password, $database);
-
-// Periksa koneksi
-if ($conn->connect_error) {
-    echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
-    exit();
+// Handle pre-flight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit;
 }
 
-// Atur set karakter ke UTF-8 untuk penanganan karakter yang benar
-$conn->set_charset("utf8");
+// Path to CSV file
+$csvFile = __DIR__ . '/survey_data.csv';
 
-// Query untuk mengambil data jumlah respons per negara dari tabel 'responses'
-$sql = "SELECT country, count(country) as total FROM responses GROUP BY country ORDER BY COUNT(country) DESC";
-$result = $conn->query($sql);
+// Initialize data array
+$countryData = [];
+$totalCount = 0;
 
-$data = [];
-if ($result->num_rows > 0) {
-    // Ambil semua baris dan simpan dalam array
-    while($row = $result->fetch_assoc()) {
-        $data[] = $row;
+// Check if CSV file exists
+if (file_exists($csvFile)) {
+    // Open CSV file for reading
+    $file = fopen($csvFile, 'r');
+
+    // Read header row
+    $headers = fgetcsv($file);
+
+    // Find the index of the 'country' column
+    $countryIndex = array_search('country', $headers);
+
+    if ($countryIndex !== false) {
+        // Read all data rows and count by country
+        $countryCounts = [];
+
+        while (($row = fgetcsv($file)) !== false) {
+            if (isset($row[$countryIndex]) && !empty($row[$countryIndex])) {
+                $country = $row[$countryIndex];
+
+                if (!isset($countryCounts[$country])) {
+                    $countryCounts[$country] = 0;
+                }
+                $countryCounts[$country]++;
+                $totalCount++;
+            }
+        }
+
+        // Convert to array format expected by frontend
+        foreach ($countryCounts as $country => $count) {
+            $countryData[] = [
+                'country_name' => $country,
+                'count' => $count
+            ];
+        }
+
+        // Sort by count descending
+        usort($countryData, function($a, $b) {
+            return $b['count'] - $a['count'];
+        });
     }
+
+    fclose($file);
 }
 
-echo json_encode($data);
+// Return data in expected format
+$response = [
+    'country_data' => $countryData,
+    'total_count' => $totalCount
+];
 
-$conn->close();
-
+echo json_encode($response);
 ?>

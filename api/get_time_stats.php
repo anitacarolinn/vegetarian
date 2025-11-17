@@ -1,38 +1,89 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-require_once(__DIR__ . '/../configuration.php');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-// Kredensial database diambil dari objek $config yang dimuat dari configuration.php
-$host = $config->host;
-$user = $config->user;
-$password = $config->password;
-$database = $config->db;
-
-// Buat koneksi
-$conn = new mysqli($host, $user, $password, $database);
-
-// Periksa koneksi
-if ($conn->connect_error) {
-    echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
-    exit();
+// Handle pre-flight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit;
 }
 
-// Atur set karakter ke UTF-8
-$conn->set_charset("utf8");
+// Path to CSV file
+$csvFile = __DIR__ . '/survey_data.csv';
 
-// Query untuk menghitung jumlah respons untuk setiap kategori vegetarian_time
-$sql = "SELECT vegetarian_time, count(*) as total FROM responses GROUP BY vegetarian_time ORDER BY total DESC";
-$result = $conn->query($sql);
+// Initialize counters
+$timeStats = [
+    '1day' => 0,
+    '1day_week' => 0,
+    '1month' => 0,
+    '1year' => 0,
+    'lifetime' => 0,
+    'always' => 0
+];
 
-$data = [];
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $data[] = $row;
+// Mapping from form values to stats keys
+$timeMapping = [
+    '1-day' => '1day',
+    '1-day-per-week' => '1day_week',
+    '7-days' => '1month',  // 7 days is approximately counted with 1 month
+    '1-month' => '1month',
+    '1-year' => '1year',
+    'whole-life' => 'lifetime',
+    'life-after-life' => 'always'
+];
+
+// Meals calculation per category (meals per year)
+$mealsPerYear = [
+    '1day' => 3,           // 1 day = 3 meals
+    '1day_week' => 156,    // 1 day/week * 52 weeks * 3 meals
+    '1month' => 90,        // 1 month * 3 meals/day * 30 days
+    '1year' => 1095,       // 1 year * 3 meals/day * 365 days
+    'lifetime' => 1095,    // lifetime counted as 1 year
+    'always' => 1095       // always counted as 1 year
+];
+
+$totalMeals = 0;
+
+// Check if CSV file exists
+if (file_exists($csvFile)) {
+    // Open CSV file for reading
+    $file = fopen($csvFile, 'r');
+
+    // Read header row
+    $headers = fgetcsv($file);
+
+    // Find the index of the 'vegetarianTime' column
+    $timeIndex = array_search('vegetarianTime', $headers);
+
+    if ($timeIndex !== false) {
+        // Read all data rows and count by vegetarian time
+        while (($row = fgetcsv($file)) !== false) {
+            if (isset($row[$timeIndex]) && !empty($row[$timeIndex])) {
+                $vegTime = $row[$timeIndex];
+
+                // Map form value to stats key
+                if (isset($timeMapping[$vegTime])) {
+                    $statsKey = $timeMapping[$vegTime];
+                    $timeStats[$statsKey]++;
+
+                    // Calculate meals
+                    if (isset($mealsPerYear[$statsKey])) {
+                        $totalMeals += $mealsPerYear[$statsKey];
+                    }
+                }
+            }
+        }
     }
+
+    fclose($file);
 }
 
-echo json_encode($data);
+// Return data in expected format
+$response = [
+    'time_stats' => $timeStats,
+    'total_meals' => $totalMeals
+];
 
-$conn->close();
+echo json_encode($response);
 ?>
