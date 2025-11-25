@@ -5,6 +5,9 @@ import knife from "../../assets/p1/knife.svg";
 import spoon from "../../assets/p1/spoon.svg";
 import fork from "../../assets/p1/fork.svg";
 import cattle from "../../assets/p1/cattle.svg";
+import itTw from "../../assets/it-tw.svg";
+import itEn from "../../assets/p1/p1-it-en.svg";
+import itEs from "../../assets/p1/p1-it-es.svg";
 
 export default function P1({ lang }) {
   const storedValue = 0;
@@ -37,9 +40,9 @@ export default function P1({ lang }) {
   }, []);
 
   const imageSrc = {
-    zh: "src/assets/it-tw.svg",
-    en: "src/assets/p1/p1-it-en.svg",
-    es: "src/assets/p1/p1-it-es.svg",
+    zh: itTw,
+    en: itEn,
+    es: itEs,
   };
 
   const seconds = time.getSeconds();

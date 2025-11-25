@@ -25,6 +25,10 @@
   margin: 0px 12px;
 }
 
+.p1-title.lang-zh .p1-subtitle img {
+  width: clamp(120px, 30vw, 150px);
+}
+
 .p1-title.lang-en .p1-subtitle-lang img,
 .p1-title.lang-es .p1-subtitle-lang img {
   width: clamp(120px, 30vw, 150px);
@@ -194,6 +198,7 @@
     text-align: center;
   }
 
+  .p1-title.lang-zh .p1-subtitle img,
   .p1-title.lang-en .p1-subtitle-lang img,
   .p1-title.lang-es .p1-subtitle-lang img {
     width: clamp(100px, 25vw, 120px);
@@ -207,6 +212,7 @@
 }
 
 @media (max-width: 770px) {
+  .p1-title.lang-zh .p1-subtitle img,
   .p1-title.lang-en .p1-subtitle-lang img,
   .p1-title.lang-es .p1-subtitle-lang img {
     width: clamp(60px, 30vw, 100px);
