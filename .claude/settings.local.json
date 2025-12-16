@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.ox.security)"
+      "WebFetch(domain:www.ox.security)",
+      "Bash(magick:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\Users\\user\\Documents\\GitHub\\TzuchiDigital\\vegetarian\\resize-favicon.ps1\")"
     ]
   }
 }
