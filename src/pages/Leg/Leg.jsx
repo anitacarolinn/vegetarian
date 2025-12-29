@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "primereact/button";
 import textData from "../../lang.json";
-import "./leg.css";
+import "./Leg.css";
 import Copyright from "../../components/Copyright/Copyright";
 import sickPeople from "../../assets/sick.svg";
 import sickHot from "../../assets/sick2.svg";
