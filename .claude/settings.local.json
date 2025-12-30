@@ -5,7 +5,11 @@
       "Bash(magick:*)",
       "Bash(ffmpeg:*)",
       "Bash(powershell -Command:*)",
-      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\Users\\user\\Documents\\GitHub\\TzuchiDigital\\vegetarian\\resize-favicon.ps1\")"
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\Users\\user\\Documents\\GitHub\\TzuchiDigital\\vegetarian\\resize-favicon.ps1\")",
+      "WebSearch",
+      "Bash(git checkout:*)",
+      "WebFetch(domain:7ae2f5e7.vegetarian-4qd.pages.dev)",
+      "Bash(curl:*)"
     ]
   }
 }
